@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface StockDao {
 
-    int insert(String name, String code, int price, Long ctime, byte unit);
+    int insert(String name, String code, Integer price, Long ctime, Byte unit);
 
     List<Stock> getStocksByName(String name, Long start, Long end);
     List<Stock> getStocksByCode(String code, Long start, Long end);

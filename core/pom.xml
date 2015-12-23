@@ -50,6 +50,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>net.coderland.server</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
             <version>1</version>
