@@ -26,7 +26,7 @@ public interface StockMapper {
         "insert into stock (name, code, ",
         "price, ctime, unit)",
         "values (#{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, ",
-        "#{price,jdbcType=INTEGER}, #{ctime,jdbcType=BIGINT}, #{unit,jdbcType=VARCHAR})"
+        "#{price,jdbcType=INTEGER}, #{ctime,jdbcType=BIGINT}, #{unit,jdbcType=TINYINT})"
     })
     @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=Integer.class)
     int insert(Stock record);
@@ -56,7 +56,7 @@ public interface StockMapper {
           "code = #{code,jdbcType=VARCHAR},",
           "price = #{price,jdbcType=INTEGER},",
           "ctime = #{ctime,jdbcType=BIGINT},",
-          "unit = #{unit,jdbcType=VARCHAR}",
+          "unit = #{unit,jdbcType=TINYINT}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Stock record);

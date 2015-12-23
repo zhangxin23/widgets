@@ -11,7 +11,7 @@ public class Stock {
 
     private Long ctime;
 
-    private String unit;
+    private Byte unit;
 
     public Integer getId() {
         return id;
@@ -53,11 +53,11 @@ public class Stock {
         this.ctime = ctime;
     }
 
-    public String getUnit() {
+    public Byte getUnit() {
         return unit;
     }
 
-    public void setUnit(String unit) {
-        this.unit = unit == null ? null : unit.trim();
+    public void setUnit(Byte unit) {
+        this.unit = unit;
     }
 }

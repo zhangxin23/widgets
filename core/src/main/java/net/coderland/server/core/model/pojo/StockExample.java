@@ -434,62 +434,52 @@ public class StockExample {
             return (Criteria) this;
         }
 
-        public Criteria andUnitEqualTo(String value) {
+        public Criteria andUnitEqualTo(Byte value) {
             addCriterion("unit =", value, "unit");
             return (Criteria) this;
         }
 
-        public Criteria andUnitNotEqualTo(String value) {
+        public Criteria andUnitNotEqualTo(Byte value) {
             addCriterion("unit <>", value, "unit");
             return (Criteria) this;
         }
 
-        public Criteria andUnitGreaterThan(String value) {
+        public Criteria andUnitGreaterThan(Byte value) {
             addCriterion("unit >", value, "unit");
             return (Criteria) this;
         }
 
-        public Criteria andUnitGreaterThanOrEqualTo(String value) {
+        public Criteria andUnitGreaterThanOrEqualTo(Byte value) {
             addCriterion("unit >=", value, "unit");
             return (Criteria) this;
         }
 
-        public Criteria andUnitLessThan(String value) {
+        public Criteria andUnitLessThan(Byte value) {
             addCriterion("unit <", value, "unit");
             return (Criteria) this;
         }
 
-        public Criteria andUnitLessThanOrEqualTo(String value) {
+        public Criteria andUnitLessThanOrEqualTo(Byte value) {
             addCriterion("unit <=", value, "unit");
             return (Criteria) this;
         }
 
-        public Criteria andUnitLike(String value) {
-            addCriterion("unit like", value, "unit");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitNotLike(String value) {
-            addCriterion("unit not like", value, "unit");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIn(List<String> values) {
+        public Criteria andUnitIn(List<Byte> values) {
             addCriterion("unit in", values, "unit");
             return (Criteria) this;
         }
 
-        public Criteria andUnitNotIn(List<String> values) {
+        public Criteria andUnitNotIn(List<Byte> values) {
             addCriterion("unit not in", values, "unit");
             return (Criteria) this;
         }
 
-        public Criteria andUnitBetween(String value1, String value2) {
+        public Criteria andUnitBetween(Byte value1, Byte value2) {
             addCriterion("unit between", value1, value2, "unit");
             return (Criteria) this;
         }
 
-        public Criteria andUnitNotBetween(String value1, String value2) {
+        public Criteria andUnitNotBetween(Byte value1, Byte value2) {
             addCriterion("unit not between", value1, value2, "unit");
             return (Criteria) this;
         }

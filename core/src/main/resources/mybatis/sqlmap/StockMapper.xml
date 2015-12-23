@@ -7,7 +7,7 @@
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="INTEGER" />
     <result column="ctime" property="ctime" jdbcType="BIGINT" />
-    <result column="unit" property="unit" jdbcType="VARCHAR" />
+    <result column="unit" property="unit" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -126,7 +126,7 @@
         #{ctime,jdbcType=BIGINT},
       </if>
       <if test="unit != null" >
-        #{unit,jdbcType=VARCHAR},
+        #{unit,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
@@ -155,7 +155,7 @@
         ctime = #{record.ctime,jdbcType=BIGINT},
       </if>
       <if test="record.unit != null" >
-        unit = #{record.unit,jdbcType=VARCHAR},
+        unit = #{record.unit,jdbcType=TINYINT},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -169,7 +169,7 @@
       code = #{record.code,jdbcType=VARCHAR},
       price = #{record.price,jdbcType=INTEGER},
       ctime = #{record.ctime,jdbcType=BIGINT},
-      unit = #{record.unit,jdbcType=VARCHAR}
+      unit = #{record.unit,jdbcType=TINYINT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -190,7 +190,7 @@
         ctime = #{ctime,jdbcType=BIGINT},
       </if>
       <if test="unit != null" >
-        unit = #{unit,jdbcType=VARCHAR},
+        unit = #{unit,jdbcType=TINYINT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
