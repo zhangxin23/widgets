@@ -1,0 +1,2 @@
+# widgets
+widgets: stock, weather
