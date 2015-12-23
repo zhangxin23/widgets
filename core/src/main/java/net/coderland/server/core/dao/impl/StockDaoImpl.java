@@ -5,6 +5,7 @@ import net.coderland.server.core.dao.StockDao;
 import net.coderland.server.core.dao.mapper.StockMapper;
 import net.coderland.server.core.model.pojo.Stock;
 import net.coderland.server.core.model.pojo.StockExample;
+import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * Created by zhangxin on 15/12/23.
  */
-public class StockDaoImpl implements StockDao {
+public class StockDaoImpl extends SqlSessionDaoSupport implements StockDao {
 
     @Autowired
     private StockMapper stockMapper;
