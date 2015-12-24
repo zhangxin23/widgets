@@ -1,5 +1,7 @@
 package net.coderland.server.core.model.bvo;
 
+import java.util.List;
+
 /**
  * Author: zhangxin
  * Date:   15-12-24
@@ -34,16 +36,16 @@ public class BaiduStockRespose {
     }
 
     public static class StockData {
-        private StockInfo stockInfo;
+        private List<StockInfo> stockinfo;
         private Market market;
         private KLineGraph klinegraph;
 
-        public StockInfo getStockInfo() {
-            return stockInfo;
+        public List<StockInfo> getStockinfo() {
+            return stockinfo;
         }
 
-        public void setStockInfo(StockInfo stockInfo) {
-            this.stockInfo = stockInfo;
+        public void setStockinfo(List<StockInfo> stockinfo) {
+            this.stockinfo = stockinfo;
         }
 
         public Market getMarket() {
@@ -366,6 +368,10 @@ public class BaiduStockRespose {
     public static class Market {
         private MarketInfo shanghai;
         private MarketInfo shenzhen;
+        private MarketInfo DJI;
+        private MarketInfo IXIC;
+        private MarketInfo INX;
+        private MarketInfo HSI;
 
         public MarketInfo getShanghai() {
             return shanghai;
@@ -381,6 +387,38 @@ public class BaiduStockRespose {
 
         public void setShenzhen(MarketInfo shenzhen) {
             this.shenzhen = shenzhen;
+        }
+
+        public MarketInfo getDJI() {
+            return DJI;
+        }
+
+        public void setDJI(MarketInfo DJI) {
+            this.DJI = DJI;
+        }
+
+        public MarketInfo getIXIC() {
+            return IXIC;
+        }
+
+        public void setIXIC(MarketInfo IXIC) {
+            this.IXIC = IXIC;
+        }
+
+        public MarketInfo getINX() {
+            return INX;
+        }
+
+        public void setINX(MarketInfo INX) {
+            this.INX = INX;
+        }
+
+        public MarketInfo getHSI() {
+            return HSI;
+        }
+
+        public void setHSI(MarketInfo HSI) {
+            this.HSI = HSI;
         }
     }
 

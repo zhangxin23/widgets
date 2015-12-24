@@ -6,6 +6,7 @@ import net.coderland.server.core.dao.mapper.StockCodeMapper;
 import net.coderland.server.core.model.pojo.StockCode;
 import net.coderland.server.core.model.pojo.StockCodeExample;
 import net.coderland.server.core.model.pojo.StockExample;
+import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  * Author: zhangxin
  * Date:   15-12-24
  */
-public class StockCodeDaoImpl implements StockCodeDao {
+public class StockCodeDaoImpl extends SqlSessionDaoSupport implements StockCodeDao {
 
     @Autowired
     private StockCodeMapper stockCodeMapper;

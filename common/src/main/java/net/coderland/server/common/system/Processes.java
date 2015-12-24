@@ -30,7 +30,7 @@ public class Processes {
         String[] commands = new String[]{"/bin/sh", "-c", cmd};
         Process pro;
         BufferedReader br = null;
-        List<Integer> pidList = new ArrayList<Integer>();
+        List<Integer> pidList = new ArrayList<>();
         try {
             pro = Runtime.getRuntime().exec(commands);
             br = new BufferedReader(new InputStreamReader(pro.getInputStream()));
