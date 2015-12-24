@@ -18,15 +18,15 @@ public class StockController {
 
     @RequestMapping(value = "/name", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public Object getStocksByName(@RequestParam("name") String name, @RequestParam("start") Long start,
-                                 @RequestParam("end") Long end) {
-        return stockService.getStocksByName(name, start, end);
+    public Object getStocksByName(@RequestParam("name") String name, @RequestParam("since") Long since,
+                                 @RequestParam("util") Long util, @RequestParam("limit") Integer limit) {
+        return stockService.getStocksByName(name, since, util, limit);
     }
 
     @RequestMapping(value = "/code", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public Object getStocksByCode(@RequestParam("code") String code, @RequestParam("start") Long start,
-                                  @RequestParam("end") Long end) {
-        return stockService.getStocksByCode(code, start, end);
+    public Object getStocksByCode(@RequestParam("code") String code, @RequestParam("since") Long since,
+                                  @RequestParam("util") Long util, @RequestParam("limit") Integer limit) {
+        return stockService.getStocksByCode(code, since, util, limit);
     }
 }

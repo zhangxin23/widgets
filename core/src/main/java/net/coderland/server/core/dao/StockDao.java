@@ -11,6 +11,6 @@ public interface StockDao {
 
     int insert(String name, String code, Integer price, Long ctime, Byte unit);
 
-    List<Stock> getStocksByName(String name, Long start, Long end);
-    List<Stock> getStocksByCode(String code, Long start, Long end);
+    List<Stock> getStocksByName(String name, Long since, Long util, Integer limit);
+    List<Stock> getStocksByCode(String code, Long since, Long util, Integer limit);
 }

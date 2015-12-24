@@ -35,29 +35,31 @@ public class StockDaoImpl extends SqlSessionDaoSupport implements StockDao {
     }
 
     @Override
-    public List<Stock> getStocksByName(String name, Long start, Long end) {
-        if(name == null || start == null || end == null)
+    public List<Stock> getStocksByName(String name, Long since, Long util, Integer limit) {
+        if(name == null || since == null || util == null || limit == null)
             return new ArrayList<>();
 
         StockExample example = new StockExample();
         StockExample.Criteria criteria = example.createCriteria();
         criteria.andNameEqualTo(name);
-        criteria.andCtimeGreaterThanOrEqualTo(start);
-        criteria.andCtimeLessThanOrEqualTo(end);
+        criteria.andCtimeGreaterThanOrEqualTo(since);
+        criteria.andCtimeLessThanOrEqualTo(util);
+        example.setOrderByClause(" ctime desc limit " + limit);
 
         return stockMapper.selectByExample(example);
     }
 
     @Override
-    public List<Stock> getStocksByCode(String code, Long start, Long end) {
-        if(code == null || start == null || end == null)
+    public List<Stock> getStocksByCode(String code, Long since, Long util, Integer limit) {
+        if(code == null || since == null || util == null || limit == null)
             return new ArrayList<>();
 
         StockExample example = new StockExample();
         StockExample.Criteria criteria = example.createCriteria();
         criteria.andCodeEqualTo(code);
-        criteria.andCtimeGreaterThanOrEqualTo(start);
-        criteria.andCtimeLessThanOrEqualTo(end);
+        criteria.andCtimeGreaterThanOrEqualTo(since);
+        criteria.andCtimeLessThanOrEqualTo(util);
+        example.setOrderByClause(" ctime desc limit " + limit);
 
         return stockMapper.selectByExample(example);
     }

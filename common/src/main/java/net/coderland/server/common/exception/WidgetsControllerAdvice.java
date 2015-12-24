@@ -64,7 +64,7 @@ public class WidgetsControllerAdvice {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleException(WidgetsException ex) {
         ErrorDetail errorDetail = new ErrorDetail();
-        errorDetail.setTitle("Forbidden Exception");
+        errorDetail.setTitle("Bad Request Exception");
         errorDetail.setStatus(HttpStatus.BAD_REQUEST.value());
         errorDetail.setDetail(ex.getMessage());
         errorDetail.setTimestamp(new Date().toString());
