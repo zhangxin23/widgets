@@ -12,6 +12,7 @@
         <module>api</module>
         <module>core</module>
         <module>common</module>
+        <module>task</module>
     </modules>
 
     <properties>
