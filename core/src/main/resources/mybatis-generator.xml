@@ -36,9 +36,18 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table tableName="stock" schema="widgets">
+        <!--<table tableName="stock" schema="widgets">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+
+        <!--<table tableName="stock_code" schema="widgets">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+
+        <table tableName="no_table" schema="no_database">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
+
     </context>
 
 </generatorConfiguration>
