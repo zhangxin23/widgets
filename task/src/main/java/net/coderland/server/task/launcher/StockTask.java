@@ -16,7 +16,7 @@ public class StockTask {
 
     public static void main(String ... args) {
         try {
-            if (Processes.check(StockTask.class.getName())) {
+            if (!Processes.check(StockTask.class.getName())) {
                 logger.error("task is running....");
                 System.exit(1);
             }

@@ -15,6 +15,6 @@ done
 PRGDIR=`dirname "$PRG"`
 EXECUTABLE=launcher.sh
 
-MAIN="net.coderland.server.task.Stock"
+MAIN="net.coderland.server.task.launcher.StockTask"
 
 exec "$PRGDIR"/"$EXECUTABLE" "$MAIN"
