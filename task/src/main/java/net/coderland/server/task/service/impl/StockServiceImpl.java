@@ -18,9 +18,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Author: zhangxin
@@ -40,6 +40,11 @@ public class StockServiceImpl implements StockService {
 
     private String baiduApiKey = null;
 
+    private static final Map<String, String> TIME_ZONE_MAP = new HashMap<String, String>() {{
+        put("sz", "CST");
+        put("sh", "CST");
+    }};
+
     @Override
     public void collect() {
         int count = stockCodeDao.count();
@@ -56,7 +61,13 @@ public class StockServiceImpl implements StockService {
         stockCodes.parallelStream()
                 .map(item->item.getHouse() == 1 ? "sh" + item.getCode() : "sz" + item.getCode())
                 .map(code->invokeBaiduAPI(code))
-                .forEach(obj->save(obj));
+                .forEach(obj->{
+                    try {
+                        save(obj);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 
     private BaiduStockRespose invokeBaiduAPI(String code) {
@@ -75,11 +86,15 @@ public class StockServiceImpl implements StockService {
         return objResponse.getBody();
     }
 
-    private void save(BaiduStockRespose respose) {
+    private void save(BaiduStockRespose respose) throws ParseException {
         List<BaiduStockRespose.StockInfo> stockInfoList = respose.getRetData().getStockinfo();
         for(BaiduStockRespose.StockInfo info: stockInfoList) {
-            String dateTime = info.getTime() + " " + info.getDate();
-            stockDao.insert(info.getName(), info.getCode(), (int)(info.getCurrentPrice() * 100), System.currentTimeMillis(), (byte)1);
+            if(info.getDate() != null && info.getTime() != null && TIME_ZONE_MAP.get(info.getCode().substring(0, 2)) != null) {
+                String dateTime = info.getDate() + " " + info.getTime() + " " + TIME_ZONE_MAP.get(info.getCode().substring(0, 2));
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+                Date date = dateFormat.parse(dateTime);
+                stockDao.insert(info.getName(), info.getCode(), (int) (info.getCurrentPrice() * 100), date.getTime(), (byte) 1);
+            }
         }
     }
 }
