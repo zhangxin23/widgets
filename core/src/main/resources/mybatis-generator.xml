@@ -44,6 +44,10 @@
             <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
         <!--</table>-->
 
+        <!--<table tableName="options" schema="widgets">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+
         <table tableName="no_table" schema="no_database">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>

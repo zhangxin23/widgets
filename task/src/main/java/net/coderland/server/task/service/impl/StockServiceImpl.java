@@ -1,5 +1,6 @@
 package net.coderland.server.task.service.impl;
 
+import net.coderland.server.core.dao.OptionsDao;
 import net.coderland.server.core.dao.StockCodeDao;
 import net.coderland.server.core.dao.StockDao;
 import net.coderland.server.core.model.bvo.BaiduStockRespose;
@@ -9,7 +10,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -21,7 +21,6 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Author: zhangxin
@@ -36,6 +35,11 @@ public class StockServiceImpl implements StockService {
     @Resource(name = "stockDao")
     private StockDao stockDao;
 
+    @Resource(name = "optionsDao")
+    private OptionsDao optionsDao;
+
+    private String baiduApiKey = null;
+
     @Override
     public void collect() {
         int count = stockCodeDao.count();
@@ -45,6 +49,9 @@ public class StockServiceImpl implements StockService {
         for(int i = 0; i < iteratorCount; i++) {
             stockCodes.addAll(stockCodeDao.getStockCodes(i * limit, limit));
         }
+
+        if(baiduApiKey == null)
+            baiduApiKey = optionsDao.getOption("baiduapikey");
 
         stockCodes.parallelStream()
                 .map(item->item.getHouse() == 1 ? "sh" + item.getCode() : "sz" + item.getCode())
@@ -59,7 +66,7 @@ public class StockServiceImpl implements StockService {
                         new MappingJackson2HttpMessageConverter()}));
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("apikey", "c81b320919308e26b745f5020b1eab33");
+        headers.set("apikey", baiduApiKey);
         HttpEntity entity = new HttpEntity(headers);
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://apis.baidu.com/apistore/stockservice/stock")
                                                             .queryParam("stockid", code)

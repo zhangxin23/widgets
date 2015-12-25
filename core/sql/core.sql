@@ -16,3 +16,10 @@ CREATE TABLE `stock_code` (
   `status` tinyint(4) NOT NULL COMMENT '0：失效，1：有效',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+CREATE TABLE `options` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) COLLATE utf8_bin NOT NULL,
+  `value` varchar(1024) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
