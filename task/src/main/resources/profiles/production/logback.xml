@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <property scope="local" name="log.path" value="/data/wpsmail/logs/sns-task" />
-    <property scope="local" name="logName" value="sns-task.log" />
-    <property scope="local" name="errorLogName" value="sns-task-error.log" />
+    <property scope="local" name="log.path" value="./task/logs" />
+    <property scope="local" name="logName" value="task.log" />
+    <property scope="local" name="errorLogName" value="task-error.log" />
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <Target>System.out</Target>
         <encoder>
