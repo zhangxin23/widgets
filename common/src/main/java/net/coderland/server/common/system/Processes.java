@@ -26,7 +26,7 @@ public class Processes {
             logger.error("key is null");
             return false;
         }
-        String cmd = String.format("ps -ef | grep '%s' | grep -v grep|awk '{print $2}'", key);
+        String cmd = String.format("ps aux | grep -i '%s' | grep -v grep | awk '{print $2}'", key);
         String[] commands = new String[]{"/bin/sh", "-c", cmd};
         Process pro;
         BufferedReader br = null;
