@@ -15,18 +15,23 @@ public class StockTask {
     private static Logger logger = LoggerFactory.getLogger(StockTask.class);
 
     public static void main(String ... args) {
-        try {
-            if (!Processes.check(StockTask.class.getName())) {
-                logger.error("task is running....");
-                System.exit(1);
-            }
-            ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring/ApplicationContext-*.xml");
-            StockService service = applicationContext.getBean("stockService", StockService.class);
-            service.collect();
-        } catch (Exception e) {
-            logger.error("task occurs error: ", e);
-        }
+        //shell start
+//        try {
+//            if (!Processes.check(StockTask.class.getName())) {
+//                logger.error("task is running....");
+//                System.exit(1);
+//            }
+//            ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring/ApplicationContext-*.xml");
+//            StockService service = applicationContext.getBean("stockService", StockService.class);
+//            service.collect();
+//        } catch (Exception e) {
+//            logger.error("task occurs error: ", e);
+//        }
+//
+//        System.exit(0);
 
-        System.exit(0);
+
+        //task scheduled
+        ApplicationContext taskContext = new ClassPathXmlApplicationContext("spring/ApplicationContext-*.xml");
     }
 }

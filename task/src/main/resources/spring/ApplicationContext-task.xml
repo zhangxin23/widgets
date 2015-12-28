@@ -7,11 +7,8 @@
        http://www.springframework.org/schema/task/spring-task-4.1.xsd"
        default-lazy-init="false">
 
-
-    <!--<bean id="task" class="net.coderland.server.task.Stock"/>-->
-
-    <!--<task:scheduled-tasks>-->
-        <!--<task:scheduled ref="task" method="apply" cron="0 5 12 * * ?"/>-->
-    <!--</task:scheduled-tasks>-->
+    <task:scheduled-tasks>
+        <task:scheduled ref="stockService" method="collect" fixed-delay="600000"/>
+    </task:scheduled-tasks>
 
 </beans>
