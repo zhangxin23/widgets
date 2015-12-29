@@ -8,10 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>api</artifactId>
     <packaging>war</packaging>
-
-    <name>api Maven Webapp</name>
-    <url>http://maven.apache.org</url>
-
+    
     <properties>
         <app.name>api</app.name>
         <jetty.port>20000</jetty.port>
