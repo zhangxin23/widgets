@@ -10,4 +10,6 @@
        </bean>
 
        <bean id="stockFollowsDao" class="net.coderland.server.core.dao.impl.StockFollowsDaoImpl"/>
+
+       <bean id="optionsDao" class="net.coderland.server.core.dao.impl.OptionsDaoImpl"/>
 </beans>

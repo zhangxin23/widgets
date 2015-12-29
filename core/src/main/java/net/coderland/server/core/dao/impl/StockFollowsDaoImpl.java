@@ -27,10 +27,22 @@ public class StockFollowsDaoImpl implements StockFollowsDao {
         StockFollows follows = new StockFollows();
         follows.setUser(user);
         follows.setStockCode(code);
-        follows.setCtime(new Date());
         follows.setStatus((byte)1);
 
         return stockFollowsMapper.insert(follows);
+    }
+
+    @Override
+    public int delete(String user, String code) {
+        if(user == null || code == null)
+            throw new WidgetsBadRequestException("invalid parameter");
+
+        StockFollowsExample example = new StockFollowsExample();
+        StockFollowsExample.Criteria criteria = example.createCriteria();
+        criteria.andUserEqualTo(user);
+        criteria.andStockCodeEqualTo(code);
+
+        return stockFollowsMapper.deleteByExample(example);
     }
 
     @Override

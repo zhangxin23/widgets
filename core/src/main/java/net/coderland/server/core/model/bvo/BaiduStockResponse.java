@@ -6,7 +6,7 @@ import java.util.List;
  * Author: zhangxin
  * Date:   15-12-24
  */
-public class BaiduStockRespose {
+public class BaiduStockResponse {
     private Integer errNum; //返回错误码
     private String errMsg; //返回错误信息
     private StockData retData;

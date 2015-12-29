@@ -3,7 +3,7 @@ package net.coderland.server.task.service.impl;
 import net.coderland.server.core.dao.OptionsDao;
 import net.coderland.server.core.dao.StockCodeDao;
 import net.coderland.server.core.dao.StockDao;
-import net.coderland.server.core.model.bvo.BaiduStockRespose;
+import net.coderland.server.core.model.bvo.BaiduStockResponse;
 import net.coderland.server.core.model.pojo.StockCode;
 import net.coderland.server.task.service.StockService;
 import org.springframework.http.HttpEntity;
@@ -101,7 +101,7 @@ public class StockServiceImpl implements StockService {
             return false;
     }
 
-    private BaiduStockRespose invokeBaiduAPI(String code) {
+    private BaiduStockResponse invokeBaiduAPI(String code) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setMessageConverters(Arrays.asList(new HttpMessageConverter[]{
                         new StringHttpMessageConverter(),
@@ -113,13 +113,13 @@ public class StockServiceImpl implements StockService {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://apis.baidu.com/apistore/stockservice/stock")
                                                             .queryParam("stockid", code)
                                                             .queryParam("list", "1");
-        ResponseEntity<BaiduStockRespose> objResponse = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.GET, entity, BaiduStockRespose.class);
+        ResponseEntity<BaiduStockResponse> objResponse = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.GET, entity, BaiduStockResponse.class);
         return objResponse.getBody();
     }
 
-    private void save(BaiduStockRespose respose) throws ParseException {
-        List<BaiduStockRespose.StockInfo> stockInfoList = respose.getRetData().getStockinfo();
-        for(BaiduStockRespose.StockInfo info: stockInfoList) {
+    private void save(BaiduStockResponse respose) throws ParseException {
+        List<BaiduStockResponse.StockInfo> stockInfoList = respose.getRetData().getStockinfo();
+        for(BaiduStockResponse.StockInfo info: stockInfoList) {
             if(info.getDate() != null && info.getTime() != null && TIME_ZONE_MAP.get(info.getCode().substring(0, 2)) != null) {
                 String dateTime = info.getDate() + " " + info.getTime() + " " + TIME_ZONE_MAP.get(info.getCode().substring(0, 2));
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");

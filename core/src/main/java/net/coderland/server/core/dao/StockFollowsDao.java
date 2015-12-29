@@ -11,6 +11,7 @@ import java.util.List;
 public interface StockFollowsDao {
 
     int insert(String user, String code);
+    int delete(String user, String code);
 
     List<StockFollows> getFollows(String user);
 }

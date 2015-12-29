@@ -31,10 +31,10 @@ public class StockController {
         return stockService.getStocksByCode(code, since, util, limit);
     }
 
-    @RequestMapping(value = "/follows", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/follows/{user}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public Object getFollows() {
-        return stockService.getFollows();
+    public Object getFollows(@PathVariable("user") String user) {
+        return stockService.getFollows(user);
     }
 
     @RequestMapping(value = "/follows/{user}/{code}", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -42,5 +42,12 @@ public class StockController {
     @ResponseStatus(HttpStatus.CREATED)
     public void setFollows(@PathVariable("user") String user, @PathVariable("code") String code) {
         stockService.setFollows(user, code);
+    }
+
+    @RequestMapping(value = "/follows/{user}/{code}", method = RequestMethod.DELETE)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delFollows(@PathVariable("user") String user, @PathVariable("code") String code) {
+        stockService.delFollows(user, code);
     }
 }
