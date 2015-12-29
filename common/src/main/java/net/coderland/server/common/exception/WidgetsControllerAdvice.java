@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.Date;
 
@@ -11,7 +12,7 @@ import java.util.Date;
  * Created by zhangxin on 15/12/23.
  */
 @ControllerAdvice
-public class WidgetsControllerAdvice {
+public class WidgetsControllerAdvice extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(WidgetsBadRequestException.class)
     public ResponseEntity<?> handleBadRequestException(WidgetsBadRequestException ex) {
@@ -61,15 +62,27 @@ public class WidgetsControllerAdvice {
         return new ResponseEntity<>(errorDetail, null, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleException(WidgetsException ex) {
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<?> handleException(RuntimeException ex) {
         ErrorDetail errorDetail = new ErrorDetail();
         errorDetail.setTitle("Bad Request Exception");
         errorDetail.setStatus(HttpStatus.BAD_REQUEST.value());
         errorDetail.setDetail(ex.getMessage());
         errorDetail.setTimestamp(new Date().toString());
-        errorDetail.setDeveloperMessage(ex.getClass().getName());
+        errorDetail.setDeveloperMessage(stackTraceToString(ex.getStackTrace()));
 
         return new ResponseEntity<>(errorDetail, null, HttpStatus.BAD_REQUEST);
+    }
+
+    private String stackTraceToString(StackTraceElement[] stackTraceElements) {
+        StringBuilder builder = new StringBuilder();
+        for(StackTraceElement item: stackTraceElements) {
+            builder.append(item.getClassName())
+                    .append("(")
+                    .append(item.getFileName()).append(": ").append(item.getLineNumber())
+                    .append(")")
+                    .append("    ");
+        }
+        return builder.toString();
     }
 }

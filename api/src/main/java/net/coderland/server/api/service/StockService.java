@@ -7,4 +7,7 @@ public interface StockService {
 
     Object getStocksByName(String name, Long since, Long util, Integer limit);
     Object getStocksByCode(String code, Long since, Long util, Integer limit);
+
+    Object getFollows();
+    void setFollows(String user, String code);
 }

@@ -47,6 +47,9 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public void collect() {
+        if(!validedDateTime())
+            return;
+
         int count = stockCodeDao.count();
         int limit = 20;
         int iteratorCount = count % limit == 0 ? count / limit : count / limit + 1;
@@ -68,6 +71,34 @@ public class StockServiceImpl implements StockService {
                         throw new RuntimeException(e);
                     }
                 });
+    }
+
+    private boolean validedDateTime() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day_of_month = calendar.get(Calendar.DAY_OF_MONTH);
+        int day_of_week = calendar.get(Calendar.DAY_OF_WEEK);
+        if(day_of_week < Calendar.MONDAY || day_of_week > Calendar.FRIDAY)
+            return false;
+
+        long now = System.currentTimeMillis();
+        calendar.set(year, month, day_of_month, 9, 30, 0);
+        long amStart = calendar.getTimeInMillis();
+
+        calendar.set(year, month, day_of_month, 11, 30, 0);
+        long amEnd = calendar.getTimeInMillis();
+
+        calendar.set(year, month, day_of_month, 13, 0, 0);
+        long pmStart = calendar.getTimeInMillis();
+
+        calendar.set(year, month, day_of_month, 15, 0, 0);
+        long pmEnd = calendar.getTimeInMillis();
+
+        if((now >= amStart && now <= amEnd) || (now >= pmStart && now <= pmEnd))
+            return true;
+        else
+            return false;
     }
 
     private BaiduStockRespose invokeBaiduAPI(String code) {
