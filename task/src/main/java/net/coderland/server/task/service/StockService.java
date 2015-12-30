@@ -7,4 +7,5 @@ package net.coderland.server.task.service;
 public interface StockService {
 
     void collect();
+    void saveCacheToDB();
 }

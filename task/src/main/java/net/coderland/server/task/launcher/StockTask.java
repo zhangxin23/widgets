@@ -1,6 +1,8 @@
 package net.coderland.server.task.launcher;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.coderland.server.common.system.Processes;
+import net.coderland.server.core.model.bvo.BaiduStockResponse;
 import net.coderland.server.task.service.StockService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,8 +32,11 @@ public class StockTask {
 //
 //        System.exit(0);
 
-
         //task scheduled
         ApplicationContext taskContext = new ClassPathXmlApplicationContext("spring/ApplicationContext-*.xml");
+
+        //cache to db
+        StockService service = taskContext.getBean("stockService", StockService.class);
+        service.saveCacheToDB();
     }
 }

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+              http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+       <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+              <property name="locations">
+                     <list>
+                            <value>classpath:config/*.properties</value>
+                     </list>
+              </property>
+       </bean>
+
+       <bean id="jedisConnectionFactory_0" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+             p:host-name="${redis.pool.host}" p:port="${redis.pool.port}" p:database="0"/>
+
+       <bean id="jedisConnectionFactory_1" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+             p:host-name="${redis.pool.host}" p:port="${redis.pool.port}" p:database="1"/>
+
+       <bean id="jedisConnectionFactory_2" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+             p:host-name="${redis.pool.host}" p:port="${redis.pool.port}" p:database="2"/>
+
+       <bean id="jedisConnectionFactory_3" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+             p:host-name="${redis.pool.host}" p:port="${redis.pool.port}" p:database="3"/>
+
+       <bean id="jedisConnectionFactory_4" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+             p:host-name="${redis.pool.host}" p:port="${redis.pool.port}" p:database="4"/>
+
+       <bean id="jedisConnectionFactory_5" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+             p:host-name="${redis.pool.host}" p:port="${redis.pool.port}" p:database="5"/>
+
+       <bean id="jedisConnectionFactory_6" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+             p:host-name="${redis.pool.host}" p:port="${redis.pool.port}" p:database="6"/>
+
+       <bean id="jedisConnectionFactory_7" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+             p:host-name="${redis.pool.host}" p:port="${redis.pool.port}" p:database="7"/>
+
+       <bean id="jedisConnectionFactory_8" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+             p:host-name="${redis.pool.host}" p:port="${redis.pool.port}" p:database="8"/>
+
+       <bean id="jedisConnectionFactory_9" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+             p:host-name="${redis.pool.host}" p:port="${redis.pool.port}" p:database="9"/>
+
+       <bean id="jedisConnectionFactory_10" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+             p:host-name="${redis.pool.host}" p:port="${redis.pool.port}" p:database="10"/>
+
+       <bean id="jedisConnectionFactory_11" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+             p:host-name="${redis.pool.host}" p:port="${redis.pool.port}" p:database="11"/>
+
+       <bean id="jedisConnectionFactory_12" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+             p:host-name="${redis.pool.host}" p:port="${redis.pool.port}" p:database="12"/>
+
+       <bean id="jedisConnectionFactory_13" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+             p:host-name="${redis.pool.host}" p:port="${redis.pool.port}" p:database="13"/>
+
+       <bean id="jedisConnectionFactory_14" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+             p:host-name="${redis.pool.host}" p:port="${redis.pool.port}" p:database="14"/>
+
+       <bean id="jedisConnectionFactory_15" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+             p:host-name="${redis.pool.host}" p:port="${redis.pool.port}" p:database="15"/>
+
+       <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+              <property name="connectionFactory" ref="jedisConnectionFactory_0" />
+
+              <property name="keySerializer">
+                     <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+              </property>
+              <property name="valueSerializer">
+                     <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+              </property>
+              <property name="hashKeySerializer">
+                     <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+              </property>
+              <property name="hashValueSerializer">
+                     <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+              </property>
+       </bean>
+
+       <bean id="stockCache" class="net.coderland.server.task.cache.StockCache">
+              <property name="connectionFactories">
+                     <list>
+                            <ref bean="jedisConnectionFactory_0" />
+                            <ref bean="jedisConnectionFactory_1" />
+                            <ref bean="jedisConnectionFactory_2" />
+                            <ref bean="jedisConnectionFactory_3" />
+                            <ref bean="jedisConnectionFactory_4" />
+                            <ref bean="jedisConnectionFactory_5" />
+                            <ref bean="jedisConnectionFactory_6" />
+                            <ref bean="jedisConnectionFactory_7" />
+                            <ref bean="jedisConnectionFactory_8" />
+                            <ref bean="jedisConnectionFactory_9" />
+                            <ref bean="jedisConnectionFactory_10" />
+                            <ref bean="jedisConnectionFactory_11" />
+                            <ref bean="jedisConnectionFactory_12" />
+                            <ref bean="jedisConnectionFactory_13" />
+                            <ref bean="jedisConnectionFactory_14" />
+                            <ref bean="jedisConnectionFactory_15" />
+                     </list>
+              </property>
+       </bean>
+</beans>
