@@ -63,8 +63,8 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public void collect() {
-//        if(!validedDateTime())
-//            return;
+        if(!validedDateTime())
+            return;
 
         if(codesList == null) {
             int count = stockCodeDao.count();

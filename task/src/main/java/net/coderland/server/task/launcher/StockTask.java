@@ -1,16 +1,9 @@
 package net.coderland.server.task.launcher;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import net.coderland.server.common.system.Processes;
-import net.coderland.server.core.model.bvo.BaiduStockResponse;
-import net.coderland.server.task.service.StockService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Author: zhangxin
@@ -37,9 +30,5 @@ public class StockTask {
 
         //task scheduled
         ApplicationContext taskContext = new ClassPathXmlApplicationContext("spring/ApplicationContext-*.xml");
-
-        //cache to db
-        StockService service = taskContext.getBean("stockService", StockService.class);
-        service.saveCacheToDB();
     }
 }
