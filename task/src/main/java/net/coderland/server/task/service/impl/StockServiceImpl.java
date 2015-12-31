@@ -10,6 +10,9 @@ import net.coderland.server.core.model.bvo.BaiduStockResponse;
 import net.coderland.server.core.model.pojo.StockCode;
 import net.coderland.server.task.cache.StockCache;
 import net.coderland.server.task.service.StockService;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -54,7 +57,7 @@ public class StockServiceImpl implements StockService {
 
     private List<String> codesList = null;
 
-    ExecutorService executor = Executors.newFixedThreadPool(4);
+    ExecutorService executor = Executors.newFixedThreadPool(10);
 
     private static final Map<String, String> TIME_ZONE_MAP = new HashMap<String, String>() {{
         put("sz", "CST");
@@ -98,17 +101,53 @@ public class StockServiceImpl implements StockService {
                                   .forEach(item -> saveCache(item));
     }
 
-    @Override
-    public void saveCacheToDB() {
+    public void saveCacheToDBSingleConn() {
         for(int i = 0; i < 4; i++) {
             executor.submit(() -> {
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                while (!stockCache.empty()) {
+                while(true) {
                     try {
                         String reponse = stockCache.getKey();
+                        if(reponse == null)
+                            return;
                         BaiduStockResponse responseObj = mapper.readValue(reponse, BaiduStockResponse.class);
-//                        System.out.println(Thread.currentThread().getName() + ": " + responseObj.getErrMsg());
+                        save(responseObj);
+                    } catch (Exception e) {
+                        throw new WidgetsInternalServerErrorException("invalid format json");
+                    }
+                }
+            });
+        }
+        executor.shutdown();
+    }
+
+    @Override
+    public void saveCacheToDB() {
+        for(int i = 0; i < 10; i++) {
+            executor.submit(() -> {
+                JedisConnectionFactory factory = new JedisConnectionFactory();
+                factory.setHostName("127.0.0.1");
+                factory.setPort(6379);
+                factory.setDatabase(0);
+                factory.afterPropertiesSet();
+
+                RedisTemplate<String, String> template = new RedisTemplate<>();
+                template.setConnectionFactory(factory);
+                template.setKeySerializer(new StringRedisSerializer());
+                template.setValueSerializer(new StringRedisSerializer());
+                template.setHashKeySerializer(new StringRedisSerializer());
+                template.setHashValueSerializer(new StringRedisSerializer());
+                template.afterPropertiesSet();
+
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                while(true) {
+                    try {
+                        String reponse = template.opsForList().leftPop("stock");
+                        if(reponse == null)
+                            return;
+                        BaiduStockResponse responseObj = mapper.readValue(reponse, BaiduStockResponse.class);
                         save(responseObj);
                     } catch (Exception e) {
                         throw new WidgetsInternalServerErrorException("invalid format json");

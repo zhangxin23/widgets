@@ -1,5 +1,6 @@
 package net.coderland.server.task.launcher;
 
+import net.coderland.server.task.service.StockService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
