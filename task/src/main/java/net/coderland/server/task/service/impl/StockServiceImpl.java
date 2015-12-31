@@ -108,7 +108,7 @@ public class StockServiceImpl implements StockService {
                     try {
                         String reponse = stockCache.getKey();
                         BaiduStockResponse responseObj = mapper.readValue(reponse, BaiduStockResponse.class);
-                        System.out.println(Thread.currentThread().getName() + ": " + responseObj.getErrMsg());
+//                        System.out.println(Thread.currentThread().getName() + ": " + responseObj.getErrMsg());
                         save(responseObj);
                     } catch (Exception e) {
                         throw new WidgetsInternalServerErrorException("invalid format json");
