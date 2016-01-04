@@ -57,8 +57,6 @@ public class StockServiceImpl implements StockService {
 
     private List<String> codesList = null;
 
-    ExecutorService executor = Executors.newFixedThreadPool(10);
-
     private static final Map<String, String> TIME_ZONE_MAP = new HashMap<String, String>() {{
         put("sz", "CST");
         put("sh", "CST");
@@ -102,6 +100,7 @@ public class StockServiceImpl implements StockService {
     }
 
     public void saveCacheToDBSingleConn() {
+        ExecutorService executor = Executors.newFixedThreadPool(10);
         for(int i = 0; i < 4; i++) {
             executor.submit(() -> {
                 ObjectMapper mapper = new ObjectMapper();
@@ -124,6 +123,7 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public void saveCacheToDB() {
+        ExecutorService executor = Executors.newFixedThreadPool(10);
         for(int i = 0; i < 10; i++) {
             executor.submit(() -> {
                 JedisConnectionFactory factory = new JedisConnectionFactory();
