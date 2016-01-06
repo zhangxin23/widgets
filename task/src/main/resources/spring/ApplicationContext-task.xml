@@ -9,8 +9,8 @@
 
     <task:scheduled-tasks>
         <task:scheduled ref="stockService" method="collect" fixed-delay="10000"/>
-        <task:scheduled ref="stockService" method="saveCacheToDB" cron="0 0/40 11 * * MON-FRI" />
-        <task:scheduled ref="stockService" method="saveCacheToDB" cron="0 0/10 15 * * MON-FRI" />
+        <task:scheduled ref="stockService" method="saveCacheToDB" cron="0 40 11 * * MON-FRI" />
+        <task:scheduled ref="stockService" method="saveCacheToDB" cron="0 30 15 * * MON-FRI" />
     </task:scheduled-tasks>
 
 </beans>
