@@ -1,16 +1,18 @@
 package net.coderland.server.api.controller;
 
+import net.coderland.server.api.model.response.FollowsResponse;
 import net.coderland.server.api.service.StockService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 
 /**
  * Created by zhangxin on 15/12/23.
  */
-@Controller
+@Controller(value = "stockController")
 @RequestMapping("stock")
 public class StockController {
 
@@ -31,7 +33,7 @@ public class StockController {
         return stockService.getStocksByCode(code, since, util, limit);
     }
 
-    @RequestMapping(value = "/follows/{user}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/follows/{user}", method = RequestMethod.GET/*, produces = "application/json;charset=UTF-8"*/)
     @ResponseBody
     public Object getFollows(@PathVariable("user") String user) {
         return stockService.getFollows(user);
@@ -49,5 +51,13 @@ public class StockController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delFollows(@PathVariable("user") String user, @PathVariable("code") String code) {
         stockService.delFollows(user, code);
+    }
+
+    @RequestMapping(value = "/view/{user}/data.json", method = RequestMethod.GET)
+    public ModelAndView getView(@PathVariable("user") String user) {
+        ModelAndView mav = new ModelAndView("ooo");
+        FollowsResponse followsResponse = (FollowsResponse)stockService.getFollows(user);
+        mav.addObject("follows", followsResponse);
+        return mav;
     }
 }

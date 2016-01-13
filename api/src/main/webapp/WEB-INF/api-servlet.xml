@@ -16,27 +16,93 @@
         <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
     </context:component-scan>
 
+    <mvc:resources mapping="/static/**" location="/static/" />
+
+    <bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="objectMapper">
+            <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+                <property name="serializationInclusion" value="NON_NULL"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="streamMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller" />
+    <bean id="marshallingConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+        <property name="marshaller" ref="streamMarshaller" />
+        <property name="unmarshaller" ref="streamMarshaller" />
+    </bean>
+
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">
-            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-                <property name="objectMapper">
-                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">
-                        <property name="serializationInclusion" value="NON_NULL"/>
-                    </bean>
-                </property>
-            </bean>
+            <ref bean="jsonConverter" />
+            <ref bean="marshallingConverter" />
         </mvc:message-converters>
     </mvc:annotation-driven>
 
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+        <property name="defaultLocale">
+            <value>zh</value>
+        </property>
+        <property name="cookieMaxAge" value="100000"/>
+    </bean>
+
+    <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+        <property name="paramName" value="locale"/>
+    </bean>
+
     <mvc:interceptors>
-        <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-            <property name="paramName" value="locale"/>
-        </bean>
+        <ref bean="localeChangeInterceptor"/>
     </mvc:interceptors>
+
+    <bean id="interceptorUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="interceptors">
+            <list>
+                <ref bean="localeChangeInterceptor"/>
+            </list>
+        </property>
+        <property name="mappings">
+            <props>
+                <prop key="/test.json">stockController</prop>
+            </props>
+        </property>
+    </bean>
 
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="-1"/>
+    </bean>
+
+    <bean id="contentNegotiationManager"
+          class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <property name="favorPathExtension" value="true" />
+        <property name="favorParameter" value="true" />
+        <property name="parameterName" value="format" />
+        <property name="ignoreAcceptHeader" value="false" />
+        <property name="mediaTypes">
+            <value>
+                json=application/json
+                xml=application/xml
+            </value>
+        </property>
+        <property name="defaultContentType" value="text/html" />
+    </bean>
+
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="contentNegotiationManager" ref="contentNegotiationManager"/>
+        <property name="viewResolvers">
+            <list>
+                <bean class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
+                <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+                    <property name="prefix" value="/WEB-INF/jsp/"/>
+                    <property name="suffix" value=".jsp"/>
+                </bean>
+            </list>
+        </property>
+        <property name="defaultViews">
+            <list>
+                <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
+            </list>
+        </property>
     </bean>
 
 </beans>
