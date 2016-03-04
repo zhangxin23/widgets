@@ -1,13 +1,25 @@
 package net.coderland.server.api.controller;
 
+import net.coderland.server.api.aop.LogPointcut;
 import net.coderland.server.api.model.response.FollowsResponse;
+import net.coderland.server.api.model.response.StockResponse;
 import net.coderland.server.api.service.StockService;
+
+
+import net.coderland.server.common.exception.WidgetsBadRequestException;
+import net.coderland.server.core.model.pojo.Stock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zhangxin on 15/12/23.
@@ -16,8 +28,13 @@ import javax.annotation.Resource;
 @RequestMapping("stock")
 public class StockController {
 
+    private static final Logger logger = LoggerFactory.getLogger(StockController.class);
+
     @Resource(name = "stockService")
     private StockService stockService;
+
+    @Resource(name = "logPointcut")
+    private LogPointcut logPointcut;
 
     @RequestMapping(value = "/name", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     @ResponseBody
@@ -59,5 +76,54 @@ public class StockController {
         FollowsResponse followsResponse = (FollowsResponse)stockService.getFollows(user);
         mav.addObject("follows", followsResponse);
         return mav;
+    }
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public String testInterceptor() {
+        logger.info("Welcome, this is test page.");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        logger.info("Before returning view page");
+
+        return String.valueOf(System.currentTimeMillis());
+    }
+
+    @RequestMapping(value = "/test_interceptor", method = RequestMethod.GET)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public Object testInterceptorStocks(@RequestParam("id") int id) throws WidgetsBadRequestException {
+        logger.info("===BEGIN===");
+
+        List<Stock> stockList = new ArrayList<>();
+        stockList.add(newStock(1, "first", "100000", 100, System.currentTimeMillis(), (byte)1));
+        stockList.add(newStock(2, "second", "200000", 200, System.currentTimeMillis(), (byte)1));
+        stockList.add(newStock(3, "third", "300000", 300, System.currentTimeMillis(), (byte)1));
+        StockResponse stockResponse = new StockResponse(stockList.size(), 0L, 100L, stockList);
+
+        logger.info("===END===");
+
+        //test exception
+        if(id == 1)
+            throw new WidgetsBadRequestException();
+
+        logPointcut.stockPointcut(stockResponse);
+
+        return stockResponse;
+    }
+
+    private Stock newStock(int id, String name, String code, int price, Long ctime, byte unit) {
+        Stock stock = new Stock();
+        stock.setId(id);
+        stock.setName(name);
+        stock.setCode(code);
+        stock.setPrice(price);
+        stock.setCtime(ctime);
+        stock.setUnit(unit);
+        return stock;
     }
 }
