@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component(value = "logPointcut")
 public class LogPointcut {
-    public void stockPointcut(StockResponse response) {
-
+    public StockResponse stockPointcut(StockResponse response) {
+        return response;
     }
 }

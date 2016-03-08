@@ -21,10 +21,13 @@ public class LogAdvisor {
     public void stockPointcut() {
     }
 
-    @AfterReturning("stockPointcut()")
-    public void afterReturningActionAnnotation(JoinPoint joinPoint) {
+    @AfterReturning(pointcut = "stockPointcut()", returning = "returnValue")
+    public void afterReturningActionAnnotation(JoinPoint joinPoint, Object returnValue) {
         StockResponse response = (StockResponse)joinPoint.getArgs()[0];
         logger.info("size: " + response.getTotal());
         logger.info("###AOP###");
+
+        logger.info("------------------------------");
+        logger.info("###return value: size = " + ((StockResponse)returnValue).getTotal());
     }
 }
