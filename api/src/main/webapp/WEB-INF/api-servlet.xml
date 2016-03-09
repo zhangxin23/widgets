@@ -108,12 +108,13 @@
         </property>
     </bean>
 
-    <!--<mvc:interceptors>-->
-        <!--<mvc:interceptor>-->
-            <!--<mvc:mapping path="/stock/test"/>-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/stock/*"/>
             <!--<mvc:mapping path="/stock/test_interceptor"/>-->
-            <!--<bean class="net.coderland.server.api.interceptor.CustomerInterceptor"/>-->
-        <!--</mvc:interceptor>-->
-    <!--</mvc:interceptors>-->
+            <mvc:exclude-mapping path="/stock/test" />
+            <bean class="net.coderland.server.api.interceptor.CustomerInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
 </beans>
