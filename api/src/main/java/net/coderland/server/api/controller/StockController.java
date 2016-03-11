@@ -1,6 +1,7 @@
 package net.coderland.server.api.controller;
 
 import net.coderland.server.api.aop.LogPointcut;
+import net.coderland.server.api.aop.TraceLogger;
 import net.coderland.server.api.model.response.FollowsResponse;
 import net.coderland.server.api.model.response.StockResponse;
 import net.coderland.server.api.service.StockService;
@@ -81,6 +82,7 @@ public class StockController {
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
+    @TraceLogger
     public String testInterceptor() {
         logger.info("Welcome, this is test page.");
         try {

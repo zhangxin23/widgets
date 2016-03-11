@@ -21,6 +21,11 @@ public class LogAdvisor {
     public void stockPointcut() {
     }
 
+    @Pointcut("@annotation(net.coderland.server.api.aop.TraceLogger)")
+    public void annotationPointcut() {
+
+    }
+
     @AfterReturning(pointcut = "stockPointcut()", returning = "returnValue")
     public void afterReturningActionAnnotation(JoinPoint joinPoint, Object returnValue) {
         StockResponse response = (StockResponse)joinPoint.getArgs()[0];
@@ -30,4 +35,11 @@ public class LogAdvisor {
         logger.info("------------------------------");
         logger.info("###return value: size = " + ((StockResponse)returnValue).getTotal());
     }
+
+
+    @AfterReturning(pointcut = "annotationPointcut()", returning = "rtnValue")
+    public void afterReturningAnnotationAdvice(Object rtnValue) {
+        logger.info("@@@@@annotionPointcut@@@@");
+    }
 }
+
